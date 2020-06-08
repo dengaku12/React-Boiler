@@ -8,20 +8,26 @@ import ReactDOM from 'react-dom';
 import { createStore } from 'redux';
 import Counter from './components/Counter';
 import counter from './reducers';
-import { INCREMENT, DECREMENT } from './actions';
+import { INCREMENT, DECREMENT, CLEAR } from './actions';
+import CounterApp from './components/CounterApp';
+import {Provider} from 'react-redux';
+import reducer from './reducers/index';
 
 /* eslint-disable no-underscore-dangle */
-const store = createStore(counter,
+const store = createStore(reducer,
   window.__REDUX_DEVTOOLS_EXTENSION__ &&
   window.__REDUX_DEVTOOLS_EXTENSION__());
 /* eslint-enable */
 
 const render = () => ReactDOM.render(
-  <Counter
-    value={store.getState()}
-    onIncrement={() => store.dispatch({ type: INCREMENT })}
-    onDecrement={() => store.dispatch({ type: DECREMENT })}
-  />,
+  <Provider store={store}><CounterApp/></Provider>,
+  
+ // <Counter
+ //   value={store.getState()}
+ //   onIncrement={() => store.dispatch({ type: INCREMENT })}
+ //   onDecrement={() => store.dispatch({ type: DECREMENT })}
+ //   onClear={()=> store.dispatch({type: CLEAR})}
+ // />,
   document.getElementById('root')
 );
 
